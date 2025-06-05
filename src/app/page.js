@@ -1,95 +1,79 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import styles from './page.module.css';
 
 export default function Home() {
   return (
-    <div className={styles.page}>
+    <div className={styles.container}>
+      {/* Hero Section */}
       <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+        <h1 className={styles.title}>Share Content Instantly</h1>
+        <p className={styles.description}>
+          No signup needed. Share text, links, images, and documents with just a 4-digit code!
+        </p>
+        <div className={styles.buttonGroup}>
+          <button className={styles.primaryButton}>Share Now</button>
+          <button className={styles.secondaryButton}>Receive</button>
+        </div>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+        {/* Features Grid */}
+        <div className={styles.featuresGrid}>
+          <div className={styles.featureCard}>
+            <div className={styles.emoji}>🔐</div>
+            <h3 className={styles.featureTitle}>No Sign-Up Required</h3>
+            <p className={styles.featureDescription}>Share instantly without any account</p>
+          </div>
+          <div className={styles.featureCard}>
+            <div className={styles.emoji}>🔢</div>
+            <h3 className={styles.featureTitle}>4-Digit Code</h3>
+            <p className={styles.featureDescription}>Simple codes for quick sharing</p>
+          </div>
+          <div className={styles.featureCard}>
+            <div className={styles.emoji}>⏱️</div>
+            <h3 className={styles.featureTitle}>Auto-Expire</h3>
+            <p className={styles.featureDescription}>Content auto-deletes after 5 minutes</p>
+          </div>
+          <div className={styles.featureCard}>
+            <div className={styles.emoji}>📎</div>
+            <h3 className={styles.featureTitle}>Multiple Formats</h3>
+            <p className={styles.featureDescription}>Share text, links, images & documents</p>
+          </div>
+          <div className={styles.featureCard}>
+            <div className={styles.emoji}>👤</div>
+            <h3 className={styles.featureTitle}>Optional Sign-In</h3>
+            <p className={styles.featureDescription}>Save your shared content history</p>
+          </div>
+          <div className={styles.featureCard}>
+            <div className={styles.emoji}>💡</div>
+            <h3 className={styles.featureTitle}>Clean UI</h3>
+            <p className={styles.featureDescription}>Minimal, fast, and mobile-friendly</p>
+          </div>
         </div>
       </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+      {/* How It Works Section */}
+      <section className={styles.howItWorks}>
+        <h2 className={styles.sectionTitle}>How It Works</h2>
+        <div className={styles.stepsContainer}>
+          <div className={styles.step}>
+            <div className={styles.emoji}>📤</div>
+            <h3 className={styles.stepTitle}>Share</h3>
+            <p className={styles.stepDescription}>Click Share, choose your content type, and get a 4-digit code instantly</p>
+          </div>
+          <div className={styles.step}>
+            <div className={styles.emoji}>📥</div>
+            <h3 className={styles.stepTitle}>Receive</h3>
+            <p className={styles.stepDescription}>Enter the 4-digit code to instantly access shared content</p>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className={styles.cta}>
+        <div className={styles.ctaContent}>
+          <h2 className={styles.ctaTitle}>Start Sharing Now</h2>
+          <p className={styles.ctaDescription}>No registration required. It's that simple!</p>
+          <button className={styles.ctaButton}>Try ShareMe</button>
+        </div>
+      </section>
     </div>
   );
 }
