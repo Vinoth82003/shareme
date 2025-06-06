@@ -1,6 +1,48 @@
+import Features from '@/components/Features/Features';
 import styles from './page.module.css';
+import CTA from '@/components/CTA/CTA';
 
 export default function Home() {
+
+  const features = [
+    {
+      emoji:"🔐",
+      title:"No Sign-Up Required",
+      description:"Share instantly without any account"
+    },
+    {
+      emoji:"🔢",
+      title:"4-Digit Code",
+      description:"Simple codes for quick sharing"
+    },
+    {
+      emoji:"⏱️",
+      title:"Auto-Expire",
+      description:"Content auto-deletes after 5 minutes"
+    },
+    {
+      emoji:"📎",
+      title:"Multiple Formats",
+      description:"Share text, links, images & documents"
+    },
+    {
+      emoji:"👤",
+      title:"Optional Sign-In",
+      description:"Save your shared content history"
+    },
+    {
+      emoji:"💡",
+      title:"Clean UI",
+      description:"Minimal, fast, and mobile-friendly"
+    },
+  ]
+
+  const cta = {
+    title:"Start Sharing Now",
+    description:"No registration required. It's that simple!",
+    buttonText:"Try ShareMe!"
+  }
+
   return (
     <div className={styles.container}>
       {/* Hero Section */}
@@ -10,43 +52,12 @@ export default function Home() {
           No signup needed. Share text, links, images, and documents with just a 4-digit code!
         </p>
         <div className={styles.buttonGroup}>
-          <button className={styles.primaryButton}>Share Now</button>
-          <button className={styles.secondaryButton}>Receive</button>
+          <a href='/share' className={styles.primaryButton}>Share me </a>
+          <a href='/receive' className={styles.secondaryButton}>Receive</a>
         </div>
 
         {/* Features Grid */}
-        <div className={styles.featuresGrid}>
-          <div className={styles.featureCard}>
-            <div className={styles.emoji}>🔐</div>
-            <h3 className={styles.featureTitle}>No Sign-Up Required</h3>
-            <p className={styles.featureDescription}>Share instantly without any account</p>
-          </div>
-          <div className={styles.featureCard}>
-            <div className={styles.emoji}>🔢</div>
-            <h3 className={styles.featureTitle}>4-Digit Code</h3>
-            <p className={styles.featureDescription}>Simple codes for quick sharing</p>
-          </div>
-          <div className={styles.featureCard}>
-            <div className={styles.emoji}>⏱️</div>
-            <h3 className={styles.featureTitle}>Auto-Expire</h3>
-            <p className={styles.featureDescription}>Content auto-deletes after 5 minutes</p>
-          </div>
-          <div className={styles.featureCard}>
-            <div className={styles.emoji}>📎</div>
-            <h3 className={styles.featureTitle}>Multiple Formats</h3>
-            <p className={styles.featureDescription}>Share text, links, images & documents</p>
-          </div>
-          <div className={styles.featureCard}>
-            <div className={styles.emoji}>👤</div>
-            <h3 className={styles.featureTitle}>Optional Sign-In</h3>
-            <p className={styles.featureDescription}>Save your shared content history</p>
-          </div>
-          <div className={styles.featureCard}>
-            <div className={styles.emoji}>💡</div>
-            <h3 className={styles.featureTitle}>Clean UI</h3>
-            <p className={styles.featureDescription}>Minimal, fast, and mobile-friendly</p>
-          </div>
-        </div>
+        {features && <Features features={features}/>}
       </main>
 
       {/* How It Works Section */}
@@ -67,13 +78,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className={styles.cta}>
-        <div className={styles.ctaContent}>
-          <h2 className={styles.ctaTitle}>Start Sharing Now</h2>
-          <p className={styles.ctaDescription}>No registration required. It's that simple!</p>
-          <button className={styles.ctaButton}>Try ShareMe</button>
-        </div>
-      </section>
+      <CTA cta={cta}/>
     </div>
   );
 }

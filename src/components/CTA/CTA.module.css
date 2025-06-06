@@ -1,0 +1,38 @@
+.cta {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 1rem;
+  }
+  
+  .ctaContent {
+    background: linear-gradient(to right, #2563eb, #7c3aed);
+    padding: 3rem;
+    border-radius: 1rem;
+    text-align: center;
+  }
+  
+  .ctaTitle {
+    font-size: 2.25rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+  }
+  
+  .ctaDescription {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  
+  .ctaButton {
+    background-color: white;
+    color: #2563eb;
+    padding: 1rem 2rem;
+    border-radius: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    transition: background-color 0.2s;
+  }
+  
+  .ctaButton:hover {
+    background-color: #f3f4f6;
+  }
+  
