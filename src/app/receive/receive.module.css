@@ -110,3 +110,15 @@
   color: rgba(255, 255, 255, 0.6);
   font-size: 0.875rem;
 }
+
+@media screen and (max-width: 480px) {
+  .codeInput{
+    width: 45px;
+    height: 45px;
+    font-size: 0.5rem;
+  }
+
+  .receiveBox h2{
+    font-size: 1.2rem;
+  }
+}
