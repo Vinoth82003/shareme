@@ -10,11 +10,11 @@ export async function POST(request) {
     const data = await request.formData();
     const file = data.get('file');
     const text = data.get('text');
-    
+
     // Generate a random 4-digit code
     const generateCode = () => Math.floor(1000 + Math.random() * 9000).toString();
     let code = generateCode();
-    
+
     // Ensure code uniqueness
     while (await Share.findOne({ code })) {
       code = generateCode();
@@ -22,12 +22,18 @@ export async function POST(request) {
 
     let content, type, blobUrl;
 
-    if (file) {
-      // Upload file to Vercel Blob
-      const blob = await put(file.name, file, {
+    if (file && typeof file.arrayBuffer === 'function') {
+      const buffer = Buffer.from(await file.arrayBuffer());
+
+      // Optional: size check (4.5 MB = 4.5 * 1024 * 1024 bytes)
+      if (buffer.length > 4.5 * 1024 * 1024) {
+        return NextResponse.json({ error: 'File too large (limit: 4.5 MB)' }, { status: 413 });
+      }
+
+      const blob = await put(file.name, buffer, {
         access: 'public',
       });
-      
+
       blobUrl = blob.url;
       content = file.name;
       type = 'file';
@@ -38,12 +44,12 @@ export async function POST(request) {
       return NextResponse.json({ error: 'No content provided' }, { status: 400 });
     }
 
-    // Save to MongoDB
+    // Save to DB
     const share = await Share.create({
       code,
       type,
       content,
-      blobUrl
+      blobUrl,
     });
 
     return NextResponse.json({ code: share.code });

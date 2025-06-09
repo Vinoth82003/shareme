@@ -102,25 +102,52 @@ export default function ReceivePage() {
 
                 {receivedItem && (
                     <div className={styles.textPreviewWrapper}>
-                        <div className={styles.copyWrapper}>
-                            <button
-                                className={styles.copyIconButton}
-                                onClick={() => handleCopy(receivedItem.content)}
-                                aria-label="Copy text"
-                            >
-                                {/* SVG Icon */}
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 24 24">
-                                    <path d="M16 1H4C2.897 1 2 1.897 2 3v14h2V3h12V1zm3 4H8c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h11c1.103 0 2-.897 2-2V7c0-1.103-.897-2-2-2zm0 16H8V7h11v14z" />
-                                </svg>
-                            </button>
-                            {copied && <span className={styles.copiedText}>Copied!</span>}
-                        </div>
-                        <div className={styles.textBox}>
-                            <pre>{receivedItem.content}</pre>
-                        </div>
-                    </div>
+                        {receivedItem.type === 'text' ? (
+                            <div className={styles.copyWrapper}>
+                                <button
+                                    className={styles.copyIconButton}
+                                    onClick={() => handleCopy(receivedItem.content)}
+                                    aria-label="Copy text"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 24 24">
+                                        <path d="M16 1H4C2.897 1 2 1.897 2 3v14h2V3h12V1zm3 4H8c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h11c1.103 0 2-.897 2-2V7c0-1.103-.897-2-2-2zm0 16H8V7h11v14z" />
+                                    </svg>
+                                </button>
+                                {copied && <span className={styles.copiedText}>Copied!</span>}
+                                <div className={styles.textBox}>
+                                    <pre>{receivedItem.content}</pre>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className={styles.filePreviewWrapper}>
+                                {receivedItem.content &&
+                                    /\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i.test(receivedItem.content) ? (
+                                    <img
+                                        src={receivedItem.blobUrl}
+                                        alt={receivedItem.content}
+                                        className={styles.imagePreview}
+                                    />
 
+                                ) : (
+                                    <iframe
+                                        src={receivedItem.blobUrl}
+                                        title="File Preview"
+                                        className={styles.fileIframe}
+                                    />
+                                )}
+
+                                <a
+                                    href={receivedItem.blobUrl}
+                                    download={receivedItem.content}
+                                    className={styles.downloadLink}
+                                >
+                                    ⬇ Download {receivedItem.content}
+                                </a>
+                            </div>
+                        )}
+                    </div>
                 )}
+
 
             </div>
         </div>

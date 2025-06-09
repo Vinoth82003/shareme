@@ -14,6 +14,7 @@ const SharePage = () => {
     const [isUploading, setIsUploading] = useState(false);
     const [shareCode, setShareCode] = useState(null);
     const fileInputRef = useRef(null)
+    const [selectedFile, setSelectedFile] = useState(null);
 
     const handleDragEnter = (e) => {
         e.preventDefault()
@@ -39,31 +40,36 @@ const SharePage = () => {
     }
 
     const handleFiles = (file) => {
+        setSelectedFile(file);  // Save the file
+
         setFileDetails({
             name: file.name,
             type: file.type || 'Unknown type',
-            size: formatFileSize(file.size)
-        })
+            size: formatFileSize(file.size),
+        });
 
         if (file.type.startsWith('image/')) {
-            const reader = new FileReader()
+            const reader = new FileReader();
             reader.onload = (e) => {
-                setFilePreview(e.target.result)
-            }
-            reader.readAsDataURL(file)
+                setFilePreview(e.target.result);
+            };
+            reader.readAsDataURL(file);
         } else {
-            setFilePreview('/file.svg')
+            setFilePreview('/file.svg');
         }
-    }
+    };
+
 
     const handleRemoveFile = () => {
-        setFilePreview(null)
-        setFileDetails(null)
-        setShareContent('')
+        setSelectedFile(null);
+        setFilePreview(null);
+        setFileDetails(null);
+        setShareContent('');
         if (fileInputRef.current) {
-            fileInputRef.current.value = ''
+            fileInputRef.current.value = '';
         }
-    }
+    };
+
 
     const formatFileSize = (bytes) => {
         if (bytes === 0) return '0 Bytes'
@@ -78,10 +84,8 @@ const SharePage = () => {
             setIsUploading(true);
             const formData = new FormData();
 
-            if (filePreview && fileDetails) {
-                // Get the file from the input ref
-                const file = fileInputRef.current.files[0];
-                formData.append('file', file);
+            if (selectedFile) {
+                formData.append('file', selectedFile);
             } else if (shareContent) {
                 formData.append('text', shareContent);
             }
@@ -96,18 +100,18 @@ const SharePage = () => {
             if (!response.ok) {
                 throw new Error(data.error || 'Upload failed');
             } else {
-                setShareContent("")
+                setShareContent("");
             }
 
             setShareCode(data.code);
             setIsOpen(true);
         } catch (error) {
             console.error('Share error:', error);
-            // Handle error (show error message to user)
         } finally {
             setIsUploading(false);
         }
     };
+
 
     const model = {
         title: shareCode ? 'Share Code Generated!' : 'Error',
