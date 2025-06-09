@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar/Navbar';
 export default function ReceivePage() {
     const [code, setCode] = useState(['', '', '', '']);
     const [receivedItem, setReceivedItem] = useState(null);
+    const [copied, setCopied] = useState(false);
 
     const handleCodeChange = (index, value) => {
         if (value.length <= 1 && /^\d*$/.test(value)) {
@@ -28,16 +29,46 @@ export default function ReceivePage() {
         }
     };
 
-    const handleGetItem = () => {
+    const handleGetItem = async () => {
         const fullCode = code.join('');
         if (fullCode.length === 4) {
-            // TODO: Implement API call to get shared item
-            setReceivedItem({
-                type: 'image',
-                content: 'https://placeholder.com/image.jpg'
-            });
+            try {
+                const res = await fetch('/api/receive', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ code: fullCode }),
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    setReceivedItem({
+                        type: data.type,
+                        content: data.type === 'file' ? data.blobUrl : data.content,
+                    });
+                } else {
+                    alert(data.error || 'Something went wrong');
+                }
+            } catch (err) {
+                console.error('Fetch error:', err);
+                alert('Server error. Please try again.');
+            }
         }
     };
+
+    const handleCopy = (text) => {
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+            })
+            .catch(() => alert('Failed to copy'));
+    };
+
+
+
 
     return (
         <div className={styles.container}>
@@ -45,7 +76,7 @@ export default function ReceivePage() {
                 leftLink={{ href: '/', text: 'Home' }}
                 rightLink={{ href: '/share', text: 'Share' }}
             />
-            <div className={styles.receiveBox}>
+            <div className={styles.receiveBox} style={{ maxWidth: receivedItem ? 'unset' : '400px' }}>
                 <h2>Enter 4-Digit Code</h2>
                 <div className={styles.codeInputContainer}>
                     {code.map((digit, index) => (
@@ -70,24 +101,27 @@ export default function ReceivePage() {
                 </button>
 
                 {receivedItem && (
-                    <div className={styles.previewContainer}>
-                        {receivedItem.type === 'image' ? (
-                            <img
-                                src={receivedItem.content}
-                                alt="Received item"
-                                className={styles.imagePreview}
-                            />
-                        ) : (
-                            <div className={styles.filePreview}>
-                                <div className={styles.fileInfo}>
-                                    <div className={styles.fileName}>shared-file.pdf</div>
-                                    <div className={styles.fileType}>PDF Document</div>
-                                    <div className={styles.fileSize}>2.5 MB</div>
-                                </div>
-                            </div>
-                        )}
+                    <div className={styles.textPreviewWrapper}>
+                        <div className={styles.copyWrapper}>
+                            <button
+                                className={styles.copyIconButton}
+                                onClick={() => handleCopy(receivedItem.content)}
+                                aria-label="Copy text"
+                            >
+                                {/* SVG Icon */}
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 24 24">
+                                    <path d="M16 1H4C2.897 1 2 1.897 2 3v14h2V3h12V1zm3 4H8c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h11c1.103 0 2-.897 2-2V7c0-1.103-.897-2-2-2zm0 16H8V7h11v14z" />
+                                </svg>
+                            </button>
+                            {copied && <span className={styles.copiedText}>Copied!</span>}
+                        </div>
+                        <div className={styles.textBox}>
+                            <pre>{receivedItem.content}</pre>
+                        </div>
                     </div>
+
                 )}
+
             </div>
         </div>
     );
