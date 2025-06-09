@@ -1,6 +1,7 @@
 "use client";
 import { useState } from 'react';
 import styles from './receive.module.css';
+import Navbar from '@/components/Navbar/Navbar';
 
 export default function ReceivePage() {
     const [code, setCode] = useState(['', '', '', '']);
@@ -40,6 +41,10 @@ export default function ReceivePage() {
 
     return (
         <div className={styles.container}>
+            <Navbar
+                leftLink={{ href: '/', text: 'Home' }}
+                rightLink={{ href: '/share', text: 'Share' }}
+            />
             <div className={styles.receiveBox}>
                 <h2>Enter 4-Digit Code</h2>
                 <div className={styles.codeInputContainer}>

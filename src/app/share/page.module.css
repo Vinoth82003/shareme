@@ -10,6 +10,7 @@
 }
 
 .shareBox {
+  margin-top: 70px;
   width: 100%;
   max-width: 600px;
   background: rgba(255, 255, 255, 0.05);

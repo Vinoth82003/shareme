@@ -3,6 +3,7 @@ import { useState, useRef } from 'react'
 import styles from './page.module.css'
 import { motion, AnimatePresence } from 'framer-motion'
 import Model from '@/components/Model/Model'
+import Navbar from '@/components/Navbar/Navbar';
 
 const SharePage = () => {
     const [isDragging, setIsDragging] = useState(false)
@@ -82,6 +83,10 @@ const SharePage = () => {
 
     return (
         <div className={styles.container}>
+            <Navbar
+                leftLink={{ href: '/', text: 'Home' }}
+                rightLink={{ href: '/receive', text: 'Receive' }}
+            />
             <Model isOpen={isOpen} setIsOpen={setIsOpen} model={model} />
             <div className={styles.shareBox}>
                 {!filePreview ? (
