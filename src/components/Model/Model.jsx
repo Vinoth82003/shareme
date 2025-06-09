@@ -49,7 +49,7 @@ const Model = ({ isOpen, setIsOpen, model }) => {
                             {model?.title || "Model Title"}
                         </motion.h1>
 
-                        <motion.div
+                        {model?.icon && <motion.div
                             className={styles.modelIcon}
                             initial={{ scale: 0 }}
                             animate={{ scale: [1.2, 1] }}
@@ -61,7 +61,7 @@ const Model = ({ isOpen, setIsOpen, model }) => {
                             }}
                         >
                             {model?.icon || "✨"}
-                        </motion.div>
+                        </motion.div>}
 
                         <motion.p
                             className={styles.modelText}

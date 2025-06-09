@@ -95,6 +95,8 @@ const SharePage = () => {
 
             if (!response.ok) {
                 throw new Error(data.error || 'Upload failed');
+            } else {
+                setShareContent("")
             }
 
             setShareCode(data.code);
@@ -109,7 +111,6 @@ const SharePage = () => {
 
     const model = {
         title: shareCode ? 'Share Code Generated!' : 'Error',
-        icon: shareCode ? '✔️' : '❌',
         text: shareCode
             ? `Your share code is: ${shareCode}\nThis code will expire in 5 minutes.`
             : 'Failed to generate share code. Please try again.'
