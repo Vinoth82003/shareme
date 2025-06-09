@@ -6,10 +6,10 @@ const CTA = ({ cta }) => {
             <div className={styles.ctaContent}>
                 <h2 className={styles.ctaTitle}>{cta.title}</h2>
                 <p className={styles.ctaDescription}>{cta.description}</p>
-                <button className={styles.ctaButton}>{cta.buttonText}</button>
+                <a href={cta?.href} className={styles.ctaButton}>{cta.buttonText}</a >
             </div>
         </section >
-    )
+    );
 }
 
 export default CTA;

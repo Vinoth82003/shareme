@@ -2,12 +2,14 @@
 import { useState, useRef } from 'react'
 import styles from './page.module.css'
 import { motion, AnimatePresence } from 'framer-motion'
+import Model from '@/components/Model/Model'
 
 const SharePage = () => {
     const [isDragging, setIsDragging] = useState(false)
     const [filePreview, setFilePreview] = useState(null)
     const [fileDetails, setFileDetails] = useState(null)
     const [shareContent, setShareContent] = useState('')
+    const [isOpen, setIsOpen] = useState(false);
     const fileInputRef = useRef(null)
 
     const handleDragEnter = (e) => {
@@ -68,8 +70,19 @@ const SharePage = () => {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
     }
 
+    const handleShare = () => {
+        setIsOpen(true)
+    }
+
+    const model = {
+        title: 'Share Your Content',
+        icon: `✔️`,
+        text: 'Share your files or text with a simple link. It\'s that easy!'
+    }
+
     return (
         <div className={styles.container}>
+            <Model isOpen={isOpen} setIsOpen={setIsOpen} model={model} />
             <div className={styles.shareBox}>
                 {!filePreview ? (
                     <motion.div
@@ -150,6 +163,7 @@ const SharePage = () => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     disabled={!filePreview && !shareContent}
+                    onClick={handleShare}
                 >
                     Get Share Code
                 </motion.button>

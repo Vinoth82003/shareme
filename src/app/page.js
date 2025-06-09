@@ -40,7 +40,8 @@ export default function Home() {
   const cta = {
     title:"Start Sharing Now",
     description:"No registration required. It's that simple!",
-    buttonText:"Try ShareMe!"
+    buttonText:"Try ShareMe!",
+    href:"/share"
   }
 
   return (
