@@ -11,6 +11,8 @@ const SharePage = () => {
     const [fileDetails, setFileDetails] = useState(null)
     const [shareContent, setShareContent] = useState('')
     const [isOpen, setIsOpen] = useState(false);
+    const [isUploading, setIsUploading] = useState(false);
+    const [shareCode, setShareCode] = useState(null);
     const fileInputRef = useRef(null)
 
     const handleDragEnter = (e) => {
@@ -71,15 +73,47 @@ const SharePage = () => {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
     }
 
-    const handleShare = () => {
-        setIsOpen(true)
-    }
+    const handleShare = async () => {
+        try {
+            setIsUploading(true);
+            const formData = new FormData();
+
+            if (filePreview && fileDetails) {
+                // Get the file from the input ref
+                const file = fileInputRef.current.files[0];
+                formData.append('file', file);
+            } else if (shareContent) {
+                formData.append('text', shareContent);
+            }
+
+            const response = await fetch('/api/share', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Upload failed');
+            }
+
+            setShareCode(data.code);
+            setIsOpen(true);
+        } catch (error) {
+            console.error('Share error:', error);
+            // Handle error (show error message to user)
+        } finally {
+            setIsUploading(false);
+        }
+    };
 
     const model = {
-        title: 'Share Your Content',
-        icon: `✔️`,
-        text: 'Share your files or text with a simple link. It\'s that easy!'
-    }
+        title: shareCode ? 'Share Code Generated!' : 'Error',
+        icon: shareCode ? '✔️' : '❌',
+        text: shareCode
+            ? `Your share code is: ${shareCode}\nThis code will expire in 5 minutes.`
+            : 'Failed to generate share code. Please try again.'
+    };
 
     return (
         <div className={styles.container}>
@@ -167,10 +201,10 @@ const SharePage = () => {
                     className={styles.shareButton}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    disabled={!filePreview && !shareContent}
+                    disabled={(!filePreview && !shareContent) || isUploading}
                     onClick={handleShare}
                 >
-                    Get Share Code
+                    {isUploading ? 'Uploading...' : 'Get Share Code'}
                 </motion.button>
             </div>
         </div>
