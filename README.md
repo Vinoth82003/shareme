@@ -49,16 +49,10 @@
 
 ## 🧪 Tech Stack
 
-- **Frontend**: React.js + TailwindCSS
+- **Frontend**: React.js 
 - **Backend**: Node.js / Express (or your preferred backend)
-- **Database**: Firebase / MongoDB (if storing history for logged-in users)
+- **Database**: MongoDB 
 - **Hosting**: Vercel
-
----
-
-## 📸 Screenshots (Optional)
-
-> _Add screenshots of the share & receive pages here_
 
 ---
 
@@ -90,7 +84,6 @@ Thanks to all contributors and users who believe in private, fast sharing!
 Got feedback or suggestions? Reach out to me:
 
 - ✉️ Email: vinothg0618@gmail.com
-- 🌐 Portfolio: [vinoth82003.github.io](https://vinoth82003.github.io)
 - 🔗 GitHub: [@Vinoth82003](https://github.com/Vinoth82003)
 
 ---
