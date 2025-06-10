@@ -1,8 +1,12 @@
+"use client"
+import { useState,useEffect } from 'react';
 import Features from '@/components/Features/Features';
 import styles from './page.module.css';
 import CTA from '@/components/CTA/CTA';
+import {  PageLoader } from '@/components/Loading/Loading';
 
 export default function Home() {
+  const [isPageLoading, setIsPageLoading] = useState(true);
 
   const features = [
     {
@@ -44,8 +48,13 @@ export default function Home() {
     href:"/share"
   }
 
+  useEffect(() => {
+    setIsPageLoading(false);
+  }, []);
+
   return (
     <div className={styles.container}>
+      {isPageLoading && <PageLoader />}
       {/* Hero Section */}
       <main className={styles.main}>
         <h1 className={styles.title}>Share Content Instantly</h1>

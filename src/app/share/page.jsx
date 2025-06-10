@@ -1,9 +1,10 @@
 'use client'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import styles from './page.module.css'
 import { motion, AnimatePresence } from 'framer-motion'
 import Model from '@/components/Model/Model'
 import Navbar from '@/components/Navbar/Navbar';
+import { ButtonLoader, PageLoader } from '@/components/Loading/Loading';
 
 const SharePage = () => {
     const [isDragging, setIsDragging] = useState(false)
@@ -15,6 +16,7 @@ const SharePage = () => {
     const [shareCode, setShareCode] = useState(null);
     const fileInputRef = useRef(null)
     const [selectedFile, setSelectedFile] = useState(null);
+    const [isPageLoading, setIsPageLoading] = useState(true);
 
     const handleDragEnter = (e) => {
         e.preventDefault()
@@ -79,6 +81,7 @@ const SharePage = () => {
         return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
     }
 
+
     const handleShare = async () => {
         try {
             setIsUploading(true);
@@ -120,8 +123,14 @@ const SharePage = () => {
             : 'Failed to generate share code. Please try again.'
     };
 
+    useEffect(() => {
+        setIsPageLoading(false);
+    }, [])
+
     return (
         <div className={styles.container}>
+            {isPageLoading && <PageLoader />}
+
             <Navbar
                 leftLink={{ href: '/', text: 'Home' }}
                 rightLink={{ href: '/receive', text: 'Receive' }}
@@ -209,7 +218,7 @@ const SharePage = () => {
                     disabled={(!filePreview && !shareContent) || isUploading}
                     onClick={handleShare}
                 >
-                    {isUploading ? 'Uploading...' : 'Get Share Code'}
+                    {isUploading ? <ButtonLoader /> : 'Get Share Code'}
                 </motion.button>
             </div>
         </div>

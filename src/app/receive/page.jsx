@@ -1,12 +1,14 @@
-"use client";
+'use client'
 import { useEffect, useState } from 'react';
 import styles from './receive.module.css';
 import Navbar from '@/components/Navbar/Navbar';
+import { ButtonLoader, PageLoader } from '@/components/Loading/Loading';
 
 export default function ReceivePage() {
     const [code, setCode] = useState(['', '', '', '']);
     const [receivedItem, setReceivedItem] = useState(null);
     const [copied, setCopied] = useState(false);
+    const [isPageLoading, setIsPageLoading] = useState(true);
 
     const handleCodeChange = (index, value) => {
         if (value.length <= 1 && /^\d*$/.test(value)) {
@@ -44,9 +46,9 @@ export default function ReceivePage() {
                 const data = await res.json();
 
                 if (res.ok) {
-                    console.log("Content: "+data.content);
-                    console.log("Url: "+data.blobUrl);
-                    
+                    console.log("Content: " + data.content);
+                    console.log("Url: " + data.blobUrl);
+
                     setReceivedItem({
                         type: data.type,
                         content: data.content,
@@ -72,10 +74,13 @@ export default function ReceivePage() {
     };
 
 
-    useEffect(()=>{handleGetItem();},[])
+    useEffect(() => {
+        setIsPageLoading(false);
+    }, [])
 
     return (
         <div className={styles.container}>
+            {isPageLoading && <PageLoader />}
             <Navbar
                 leftLink={{ href: '/', text: 'Home' }}
                 rightLink={{ href: '/share', text: 'Share' }}
@@ -101,7 +106,7 @@ export default function ReceivePage() {
                     onClick={handleGetItem}
                     disabled={code.some(digit => !digit)}
                 >
-                    Get Shared Item
+                    {isPageLoading ? <ButtonLoader /> : 'Get Shared Item'}
                 </button>
 
                 {receivedItem && (
