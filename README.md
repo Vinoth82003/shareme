@@ -27,7 +27,7 @@
 
 ### 📤 Sharing Content
 
-1. Go to [shareme.vercel.app](https://shareme.vercel.app)
+1. Go to [shareall.vercel.app](https://shareall.vercel.app/)
 2. Click the **Share** button on the homepage.
 3. You'll be taken to the Share page:
    - Choose what to share (Text, Link, Image, Document).
