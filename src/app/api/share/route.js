@@ -2,6 +2,7 @@ import { put } from '@vercel/blob';
 import { NextResponse } from 'next/server';
 import connectDB from '@/utils/mongodb';
 import Share from '@/models/Share';
+import BlobUrl from '@/models/BlobUrls';
 // added comment line to ensure the file is not empty
 export async function POST(request) {
   try {
@@ -38,6 +39,8 @@ export async function POST(request) {
       blobUrl = blob.url;
       content = file.name;
       type = 'file';
+      const newBlobUrl = await BlobUrl.create({code:code});
+      
     } else if (text) {
       content = text;
       type = 'text';
