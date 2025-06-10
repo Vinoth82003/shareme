@@ -7,7 +7,6 @@ const blobUrlSchema = new mongoose.Schema({
     unique: true,
     length: 4,
   },
-  blobUrl: String,
   createdAt: {
     type: Date,
     default: Date.now,
