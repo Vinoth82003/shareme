@@ -17,11 +17,7 @@ const shareSchema = new mongoose.Schema({
     required: true
   },
   blobUrl: String,
-  createdAt: {
-    type: Date,
-    default: Date.now,
-    expires: 300 // 5 minutes in seconds
-  }
+  createdAt: { type: Date, default: Date.now, expires: 3000 } // 300 seconds = 5 minutes
 });
 
 const Share = mongoose.models.Share || mongoose.model('Share', shareSchema);

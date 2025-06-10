@@ -31,6 +31,7 @@ export async function POST(request) {
       }
 
       const blob = await put(file.name, buffer, {
+        addRandomSuffix: true,
         access: 'public',
       });
 

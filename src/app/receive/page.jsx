@@ -1,5 +1,5 @@
 "use client";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styles from './receive.module.css';
 import Navbar from '@/components/Navbar/Navbar';
 
@@ -44,9 +44,13 @@ export default function ReceivePage() {
                 const data = await res.json();
 
                 if (res.ok) {
+                    console.log("Content: "+data.content);
+                    console.log("Url: "+data.blobUrl);
+                    
                     setReceivedItem({
                         type: data.type,
-                        content: data.type === 'file' ? data.blobUrl : data.content,
+                        content: data.content,
+                        url: data.blobUrl,
                     });
                 } else {
                     alert(data.error || 'Something went wrong');
@@ -68,7 +72,7 @@ export default function ReceivePage() {
     };
 
 
-
+    useEffect(()=>{handleGetItem();},[])
 
     return (
         <div className={styles.container}>
@@ -120,24 +124,24 @@ export default function ReceivePage() {
                             </div>
                         ) : (
                             <div className={styles.filePreviewWrapper}>
-                                {receivedItem.content &&
-                                    /\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i.test(receivedItem.content) ? (
+                                {receivedItem.url &&
+                                    /\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i.test(receivedItem.url) ? (
                                     <img
-                                        src={receivedItem.blobUrl}
+                                        src={receivedItem.url}
                                         alt={receivedItem.content}
                                         className={styles.imagePreview}
                                     />
 
                                 ) : (
                                     <iframe
-                                        src={receivedItem.blobUrl}
+                                        src={receivedItem.url}
                                         title="File Preview"
                                         className={styles.fileIframe}
                                     />
                                 )}
 
                                 <a
-                                    href={receivedItem.blobUrl}
+                                    href={receivedItem.url}
                                     download={receivedItem.content}
                                     className={styles.downloadLink}
                                 >
