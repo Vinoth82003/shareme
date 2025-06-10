@@ -1,7 +1,5 @@
 # 🚀 ShareMe – Quick & Simple Content Sharing
 
-![ShareMe Banner](https://shareme.vercel.app/assets/banner.png) <!-- Optional: add banner image if available -->
-
 **ShareMe** is a minimalistic, no-signup-needed web app to instantly share text, links, images, and documents with just a **4-digit code**! No login. No fuss. Just pure, simple sharing 🔄.
 
 🌐 **Live App**: [shareme.vercel.app](https://shareme.vercel.app)
