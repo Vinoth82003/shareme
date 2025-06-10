@@ -66,7 +66,7 @@
 
 We welcome contributions! Fork the repo, make your changes, and submit a PR.
 
-1. `git clone https://github.com/your-username/shareme.git`
+1. `git clone https://github.com/Vinoth82003/shareme.git`
 2. `cd shareme`
 3. `npm install`
 4. `npm run dev`
