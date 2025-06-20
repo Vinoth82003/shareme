@@ -10,6 +10,88 @@ export default function ReceivePage() {
     const [copied, setCopied] = useState(false);
     const [isPageLoading, setIsPageLoading] = useState(true);
 
+    function parseTextWithLinks(text) {
+  // Regex for URL
+  const urlRegex = /((https?:\/\/|www\.)[^\s]+)/gi;
+  // Regex for email
+  const emailRegex = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi;
+
+  // First, replace URLs with links
+  let parts = [];
+  let lastIndex = 0;
+
+  // Combine URLs and emails into one pass for ordering
+  // We will find all matches of URLs and emails, then sort by index
+
+  // Find URLs
+  const urlMatches = [...text.matchAll(urlRegex)].map(match => ({
+    type: 'url',
+    index: match.index,
+    length: match[0].length,
+    text: match[0]
+  }));
+
+  // Find emails
+  const emailMatches = [...text.matchAll(emailRegex)].map(match => ({
+    type: 'email',
+    index: match.index,
+    length: match[0].length,
+    text: match[0]
+  }));
+
+  // Merge and sort by index
+  const matches = [...urlMatches, ...emailMatches].sort((a, b) => a.index - b.index);
+
+  // No matches? Just return text as is
+  if (matches.length === 0) return [text];
+
+  for (const match of matches) {
+    // Add text before the match as normal text
+    if (lastIndex < match.index) {
+      parts.push(text.slice(lastIndex, match.index));
+    }
+
+    // Add link
+    if (match.type === 'url') {
+      let href = match.text;
+      if (!href.startsWith('http')) {
+        href = 'http://' + href; // Add protocol if missing (like www.example.com)
+      }
+      parts.push(
+        <a
+          key={match.index}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: 'blue', textDecoration: 'underline' }}
+        >
+          {match.text}
+        </a>
+      );
+    } else if (match.type === 'email') {
+      parts.push(
+        <a
+          key={match.index}
+          href={`mailto:${match.text}`}
+          style={{ color: 'blue', textDecoration: 'underline' }}
+        >
+          {match.text}
+        </a>
+      );
+    }
+
+    lastIndex = match.index + match.length;
+  }
+
+  // Add remaining text after last match
+  if (lastIndex < text.length) {
+    parts.push(text.slice(lastIndex));
+  }
+
+  return parts;
+}
+
+
     const handleCodeChange = (index, value) => {
         if (value.length <= 1 && /^\d*$/.test(value)) {
             const newCode = [...code];
@@ -124,7 +206,9 @@ export default function ReceivePage() {
                                 </button>
                                 {copied && <span className={styles.copiedText}>Copied!</span>}
                                 <div className={styles.textBox}>
-                                    <pre>{receivedItem.content}</pre>
+                                     <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+                                      {parseTextWithLinks(receivedItem.content)}
+                                    </pre>
                                 </div>
                             </div>
                         ) : (
