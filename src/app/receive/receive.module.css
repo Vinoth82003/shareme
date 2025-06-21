@@ -142,10 +142,11 @@
 }
 
 .copyWrapper {
-  position: absolute;
+  position: relative;
   top: 0.5rem;
   right: 0.5rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 0.5rem;
 }
@@ -160,6 +161,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  align-self: flex-end;
 }
 
 .copyIconButton:hover {
@@ -167,7 +169,8 @@
 }
 
 .copiedText {
-  color: #10b981;
+  color: #f8fcfa;
+  margin: 0 5px;
   font-size: 0.85rem;
   animation: fadeInOut 2s ease;
 }
@@ -189,6 +192,8 @@
   overflow-x: auto;
   white-space: pre-wrap;
   word-break: break-word;
+  width: 100%;
+  text-align: left;
 }
 
 
@@ -225,6 +230,9 @@
   background-color: #1b5fa5;
 }
 
+.textBox a{
+  color: #0882fc !important;
+}
 
 
 @media screen and (max-width: 480px) {

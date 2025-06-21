@@ -9,87 +9,88 @@ export default function ReceivePage() {
     const [receivedItem, setReceivedItem] = useState(null);
     const [copied, setCopied] = useState(false);
     const [isPageLoading, setIsPageLoading] = useState(true);
+    const [isReceiveing, setIsReceiveing] = useState(false);
 
     function parseTextWithLinks(text) {
-  // Regex for URL
-  const urlRegex = /((https?:\/\/|www\.)[^\s]+)/gi;
-  // Regex for email
-  const emailRegex = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi;
+        // Regex for URL
+        const urlRegex = /((https?:\/\/|www\.)[^\s]+)/gi;
+        // Regex for email
+        const emailRegex = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi;
 
-  // First, replace URLs with links
-  let parts = [];
-  let lastIndex = 0;
+        // First, replace URLs with links
+        let parts = [];
+        let lastIndex = 0;
 
-  // Combine URLs and emails into one pass for ordering
-  // We will find all matches of URLs and emails, then sort by index
+        // Combine URLs and emails into one pass for ordering
+        // We will find all matches of URLs and emails, then sort by index
 
-  // Find URLs
-  const urlMatches = [...text.matchAll(urlRegex)].map(match => ({
-    type: 'url',
-    index: match.index,
-    length: match[0].length,
-    text: match[0]
-  }));
+        // Find URLs
+        const urlMatches = [...text.matchAll(urlRegex)].map(match => ({
+            type: 'url',
+            index: match.index,
+            length: match[0].length,
+            text: match[0]
+        }));
 
-  // Find emails
-  const emailMatches = [...text.matchAll(emailRegex)].map(match => ({
-    type: 'email',
-    index: match.index,
-    length: match[0].length,
-    text: match[0]
-  }));
+        // Find emails
+        const emailMatches = [...text.matchAll(emailRegex)].map(match => ({
+            type: 'email',
+            index: match.index,
+            length: match[0].length,
+            text: match[0]
+        }));
 
-  // Merge and sort by index
-  const matches = [...urlMatches, ...emailMatches].sort((a, b) => a.index - b.index);
+        // Merge and sort by index
+        const matches = [...urlMatches, ...emailMatches].sort((a, b) => a.index - b.index);
 
-  // No matches? Just return text as is
-  if (matches.length === 0) return [text];
+        // No matches? Just return text as is
+        if (matches.length === 0) return [text];
 
-  for (const match of matches) {
-    // Add text before the match as normal text
-    if (lastIndex < match.index) {
-      parts.push(text.slice(lastIndex, match.index));
+        for (const match of matches) {
+            // Add text before the match as normal text
+            if (lastIndex < match.index) {
+                parts.push(text.slice(lastIndex, match.index));
+            }
+
+            // Add link
+            if (match.type === 'url') {
+                let href = match.text;
+                if (!href.startsWith('http')) {
+                    href = 'http://' + href; // Add protocol if missing (like www.example.com)
+                }
+                parts.push(
+                    <a
+                        key={match.index}
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: 'blue', textDecoration: 'underline' }}
+                    >
+                        {match.text}
+                    </a>
+                );
+            } else if (match.type === 'email') {
+                parts.push(
+                    <a
+                        key={match.index}
+                        href={`mailto:${match.text}`}
+                        style={{ color: 'blue', textDecoration: 'underline' }}
+                    >
+                        {match.text}
+                    </a>
+                );
+            }
+
+            lastIndex = match.index + match.length;
+        }
+
+        // Add remaining text after last match
+        if (lastIndex < text.length) {
+            parts.push(text.slice(lastIndex));
+        }
+
+        return parts;
     }
-
-    // Add link
-    if (match.type === 'url') {
-      let href = match.text;
-      if (!href.startsWith('http')) {
-        href = 'http://' + href; // Add protocol if missing (like www.example.com)
-      }
-      parts.push(
-        <a
-          key={match.index}
-          href={href}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ color: 'blue', textDecoration: 'underline' }}
-        >
-          {match.text}
-        </a>
-      );
-    } else if (match.type === 'email') {
-      parts.push(
-        <a
-          key={match.index}
-          href={`mailto:${match.text}`}
-          style={{ color: 'blue', textDecoration: 'underline' }}
-        >
-          {match.text}
-        </a>
-      );
-    }
-
-    lastIndex = match.index + match.length;
-  }
-
-  // Add remaining text after last match
-  if (lastIndex < text.length) {
-    parts.push(text.slice(lastIndex));
-  }
-
-  return parts;
-}
 
 
     const handleCodeChange = (index, value) => {
@@ -117,6 +118,7 @@ export default function ReceivePage() {
         const fullCode = code.join('');
         if (fullCode.length === 4) {
             try {
+                setIsReceiveing(true);
                 const res = await fetch('/api/receive', {
                     method: 'POST',
                     headers: {
@@ -142,6 +144,8 @@ export default function ReceivePage() {
             } catch (err) {
                 console.error('Fetch error:', err);
                 alert('Server error. Please try again.');
+            } finally {
+                setIsReceiveing(false);
             }
         }
     };
@@ -188,7 +192,7 @@ export default function ReceivePage() {
                     onClick={handleGetItem}
                     disabled={code.some(digit => !digit)}
                 >
-                    {isPageLoading ? <ButtonLoader /> : 'Get Shared Item'}
+                    {isReceiveing ? <ButtonLoader /> : 'Get Shared Item'}
                 </button>
 
                 {receivedItem && (
@@ -200,14 +204,15 @@ export default function ReceivePage() {
                                     onClick={() => handleCopy(receivedItem.content)}
                                     aria-label="Copy text"
                                 >
+                                    {copied ? <span className={styles.copiedText}>Copied!</span> : <span className={styles.copiedText}>Copy</span>}
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 24 24">
                                         <path d="M16 1H4C2.897 1 2 1.897 2 3v14h2V3h12V1zm3 4H8c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h11c1.103 0 2-.897 2-2V7c0-1.103-.897-2-2-2zm0 16H8V7h11v14z" />
                                     </svg>
                                 </button>
-                                {copied && <span className={styles.copiedText}>Copied!</span>}
+
                                 <div className={styles.textBox}>
-                                     <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-                                      {parseTextWithLinks(receivedItem.content)}
+                                    <pre style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+                                        {parseTextWithLinks(receivedItem.content)}
                                     </pre>
                                 </div>
                             </div>
