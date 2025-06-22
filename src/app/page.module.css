@@ -99,7 +99,6 @@
 
 .step {
   background: rgba(var(--glass-bg));
-  border: 1px solid rgba(var(--glass-border));
   border-radius: 16px;
   padding: 2rem;
   max-width: 320px;

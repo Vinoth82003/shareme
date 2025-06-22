@@ -105,7 +105,7 @@ export default function Home() {
             </div>
             <h3 className={styles.stepTitle}>Receive</h3>
             <p className={styles.stepDescription}>
-              Enter code to download the shared file.
+              Enter code to download the shared file or shared content.
             </p>
           </div>
         </div>
