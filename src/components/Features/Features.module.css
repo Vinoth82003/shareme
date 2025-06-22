@@ -64,7 +64,6 @@
   }
 
   .featureCard {
-    background-color: rgba(51, 69, 96, 0.436);
     animation: move-left 0.7s ease-in forwards;
     margin-left: -150px;
     opacity: 0;
