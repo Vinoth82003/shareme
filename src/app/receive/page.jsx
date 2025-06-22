@@ -12,54 +12,61 @@ export default function ReceivePage() {
   const [isPageLoading, setIsPageLoading] = useState(true);
   const [isReceiveing, setIsReceiveing] = useState(false);
 
-  function parseTextWithLinks(text) {
-    // Regex for URL
+  const parseTextWithLinks = (text, styles) => {
     const urlRegex = /((https?:\/\/|www\.)[^\s]+)/gi;
-    // Regex for email
     const emailRegex = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/gi;
+    const hashtagRegex = /(^|\s)(#[a-z\d_]+)/gi;
+    const mentionRegex = /(^|\s)(@[a-z\d_]+)/gi;
 
-    // First, replace URLs with links
     let parts = [];
     let lastIndex = 0;
 
-    // Combine URLs and emails into one pass for ordering
-    // We will find all matches of URLs and emails, then sort by index
-
-    // Find URLs
-    const urlMatches = [...text.matchAll(urlRegex)].map((match) => ({
+    const urlMatches = [...text.matchAll(urlRegex)].map((m) => ({
       type: "url",
-      index: match.index,
-      length: match[0].length,
-      text: match[0],
+      index: m.index,
+      length: m[0].length,
+      text: m[0],
     }));
 
-    // Find emails
-    const emailMatches = [...text.matchAll(emailRegex)].map((match) => ({
+    const emailMatches = [...text.matchAll(emailRegex)].map((m) => ({
       type: "email",
-      index: match.index,
-      length: match[0].length,
-      text: match[0],
+      index: m.index,
+      length: m[0].length,
+      text: m[0],
     }));
 
-    // Merge and sort by index
-    const matches = [...urlMatches, ...emailMatches].sort(
-      (a, b) => a.index - b.index
-    );
+    const hashtagMatches = [...text.matchAll(hashtagRegex)].map((m) => ({
+      type: "hashtag",
+      index: m.index + (m[1] ? m[1].length : 0),
+      length: m[2].length,
+      text: m[2],
+    }));
 
-    // No matches? Just return text as is
+    const mentionMatches = [...text.matchAll(mentionRegex)].map((m) => ({
+      type: "mention",
+      index: m.index + (m[1] ? m[1].length : 0),
+      length: m[2].length,
+      text: m[2],
+    }));
+
+    const matches = [
+      ...urlMatches,
+      ...emailMatches,
+      ...hashtagMatches,
+      ...mentionMatches,
+    ].sort((a, b) => a.index - b.index);
+
     if (matches.length === 0) return [text];
 
     for (const match of matches) {
-      // Add text before the match as normal text
       if (lastIndex < match.index) {
         parts.push(text.slice(lastIndex, match.index));
       }
 
-      // Add link
       if (match.type === "url") {
         let href = match.text;
         if (!href.startsWith("http")) {
-          href = "http://" + href; // Add protocol if missing (like www.example.com)
+          href = "http://" + href;
         }
         parts.push(
           <a
@@ -67,7 +74,7 @@ export default function ReceivePage() {
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: "blue", textDecoration: "underline" }}
+            className={styles.linkified}
           >
             {match.text}
           </a>
@@ -77,23 +84,34 @@ export default function ReceivePage() {
           <a
             key={match.index}
             href={`mailto:${match.text}`}
-            style={{ color: "blue", textDecoration: "underline" }}
+            className={styles.linkified}
           >
             {match.text}
           </a>
+        );
+      } else if (match.type === "hashtag") {
+        parts.push(
+          <span key={match.index} className={styles.hashtag}>
+            {match.text}
+          </span>
+        );
+      } else if (match.type === "mention") {
+        parts.push(
+          <span key={match.index} className={styles.mention}>
+            {match.text}
+          </span>
         );
       }
 
       lastIndex = match.index + match.length;
     }
 
-    // Add remaining text after last match
     if (lastIndex < text.length) {
       parts.push(text.slice(lastIndex));
     }
 
     return parts;
-  }
+  };
 
   const handleCodeChange = (index, value) => {
     if (value.length <= 1 && /^\d*$/.test(value)) {
@@ -240,7 +258,7 @@ export default function ReceivePage() {
                   <pre
                     style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}
                   >
-                    {parseTextWithLinks(receivedItem.content)}
+                    {parseTextWithLinks(receivedItem.content, styles)}
                   </pre>
                 </div>
               </div>

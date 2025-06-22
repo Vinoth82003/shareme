@@ -1,7 +1,10 @@
 .container {
   min-height: 100vh;
-  background: linear-gradient(to bottom, rgb(var(--background-start-rgb)),
-  rgb(var(--background-end-rgb)));
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--background-start-rgb)),
+    rgb(var(--background-end-rgb))
+  );
   color: rgb(var(--clr));
 }
 
@@ -16,7 +19,7 @@
   font-size: 3.75rem;
   font-weight: bold;
   margin-bottom: 1.5rem;
-  background: linear-gradient(to right, #60a5fa, #a855f7);
+  background: linear-gradient(to right, #60a5fa, #962afc);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -65,12 +68,10 @@
   background-color: rgba(37, 99, 235, 0.1);
 }
 
-
-
 .howItWorks {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 5rem 1rem;
+  padding: 0rem 1rem;
   text-align: center;
 }
 
@@ -85,27 +86,57 @@
   flex-direction: column;
   gap: 2rem;
   align-items: center;
+  padding: 2rem;
 }
 
 @media (min-width: 768px) {
   .stepsContainer {
     flex-direction: row;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
   }
 }
 
 .step {
-  flex: 1;
-  max-width: 20rem;
+  background: rgba(var(--glass-bg));
+  border: 1px solid rgba(var(--glass-border));
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 320px;
+  width: 100%;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.step:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+
+.iconCircle {
+  font-size: 2.5rem;
+  background: rgba(var(--cta-bg-start-rgb), 0.1);
+  border-radius: 50%;
+  display: inline-block;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 .stepTitle {
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 1rem;
+  color: rgb(var(--cta-title));
 }
 
 .stepDescription {
-  color: #9ca3af;
+  font-size: 1rem;
+  color: rgba(var(--cta-desc));
+  line-height: 1.6;
 }

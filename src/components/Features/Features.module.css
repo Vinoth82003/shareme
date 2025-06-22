@@ -1,65 +1,72 @@
 .featuresGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-top: 5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 5rem;
+}
+
+@keyframes move-left {
+  100% {
+    margin-top: 0;
+    opacity: 1;
   }
-  
+}
+
+.featureCard {
+  background-color: rgba(var(--features-card-bg));
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  transition: background-color 0.2s;
+  animation: move-left 0.5s ease-in forwards;
+  margin-top: 50px;
+  opacity: 0;
+}
+
+.featureCard:hover {
+  background-color: rgba(var(--features-card-hov));
+}
+
+.emoji {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+}
+
+.featureTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.featureDescription {
+  color: #9ca3af;
+  font-style: italic;
+  margin-top: 15px;
+}
+
+@media screen and (max-width: 760px) {
   @keyframes move-left {
-    100%{
-      margin-top: 0;
+    100% {
+      margin-left: 0;
       opacity: 1;
     }
   }
-  
+
   .featureCard {
-    background-color: rgba(var(--features-card-bg));
-    padding: 1.5rem;
-    border-radius: 0.75rem;
-    transition: background-color 0.2s;
-    animation: move-left .5s ease-in forwards;
-    margin-top: 50px;
+    background-color: rgba(51, 69, 96, 0.436);
+    animation: move-left 0.7s ease-in forwards;
+    margin-left: -150px;
     opacity: 0;
   }
-  
-  .featureCard:hover {
-    background-color: rgba(var(--features-card-hov));
-  }
-
-  /* .featureCard:hover .featureTitle,  .featureCard:hover .featureDescription {
-    color: #e8e7e7;
-  } */
-  
-  .emoji {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-  
-  .featureTitle {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
-  
-  .featureDescription {
-    color: #9ca3af;
-    font-style: italic;
-    margin-top: 15px;
-  }
-
-  @media screen and (max-width: 760px)  {
-
-    @keyframes move-left {
-        100%{
-          margin-left: 0;
-          opacity: 1;
-        }
-      }
-      
-      .featureCard {
-        background-color: rgba(51, 69, 96, 0.436);
-        animation: move-left .7s ease-in forwards;
-        margin-left: -150px;
-        opacity: 0;
-      }
-  }
+}

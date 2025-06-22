@@ -182,7 +182,7 @@
 }
 
 .copiedText {
-  color: rgb(var(--code-fg));
+  color: #fff;
   margin: 0 5px;
   font-size: 0.85rem;
   animation: fadeInOut 2s ease;
@@ -239,4 +239,20 @@
   .receiveBox h2 {
     font-size: 1.2rem;
   }
+}
+
+.linkified {
+  color: rgb(var(--primary-clr));
+  text-decoration: underline;
+  word-break: break-word;
+}
+
+.hashtag {
+  color: #3b82f6;
+  font-weight: 500;
+}
+
+.mention {
+  color: #14b8a6;
+  font-weight: 500;
 }
