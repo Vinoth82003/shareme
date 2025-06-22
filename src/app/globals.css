@@ -53,7 +53,7 @@
   --primary-clr: 59, 130, 246; /* Soft blue for links/buttons */
   --clr: 17, 24, 39; /* Main text color */
 
-  --features-card-bg: 255, 255, 255, 0.9; /* Light card */
+  --features-card-bg: 255, 255, 255, 1; /* Light card */
   --features-card-hov: 240, 240, 255, 1; /* Hover effect */
 
   --cta-bg-start-rgb: 219, 234, 254; /* Light Blue-100 */
