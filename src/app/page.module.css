@@ -1,7 +1,8 @@
 .container {
   min-height: 100vh;
-  background: linear-gradient(to bottom, #111827, #000000);
-  color: white;
+  background: linear-gradient(to bottom, rgb(var(--background-start-rgb)),
+  rgb(var(--background-end-rgb)));
+  color: rgb(var(--clr));
 }
 
 .main {
@@ -23,7 +24,7 @@
 
 .description {
   font-size: 1.25rem;
-  color: #d1d5db;
+  color: rgb(var(--primary-clr));
   max-width: 36rem;
   margin: 0 auto 3rem;
 }
@@ -52,7 +53,7 @@
 .secondaryButton {
   background-color: transparent;
   border: 2px solid #2563eb;
-  color: white;
+  color: rgb(var(--clr));
   padding: 1rem 2rem;
   border-radius: 0.5rem;
   font-size: 1.125rem;

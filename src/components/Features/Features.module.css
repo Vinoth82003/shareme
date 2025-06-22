@@ -13,7 +13,7 @@
   }
   
   .featureCard {
-    background-color: rgba(31, 41, 55, 0.5);
+    background-color: rgba(var(--features-card-bg));
     padding: 1.5rem;
     border-radius: 0.75rem;
     transition: background-color 0.2s;
@@ -23,8 +23,12 @@
   }
   
   .featureCard:hover {
-    background-color: rgba(31, 41, 55, 0.7);
+    background-color: rgba(var(--features-card-hov));
   }
+
+  /* .featureCard:hover .featureTitle,  .featureCard:hover .featureDescription {
+    color: #e8e7e7;
+  } */
   
   .emoji {
     font-size: 2rem;

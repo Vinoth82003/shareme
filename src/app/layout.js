@@ -1,4 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import ThemeWrapper from "@/components/ThemeToggle/ThemeWrapper";
+import ThemeToggle from "@/components/ThemeToggle/ThemeToggle";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -20,7 +22,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <ThemeWrapper>
+          <ThemeToggle />
+          {children}
+        </ThemeWrapper>
       </body>
     </html>
   );
