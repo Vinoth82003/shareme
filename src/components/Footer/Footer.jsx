@@ -20,8 +20,8 @@ export default function Footer() {
           <a href="/receive" className={styles.footerLink}>
             Receive
           </a>
-          <a href="/privacy" className={styles.footerLink}>
-            Privacy
+          <a href="/contact-us" className={styles.footerLink}>
+            Contact
           </a>
         </nav>
 

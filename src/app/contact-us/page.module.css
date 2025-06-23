@@ -54,6 +54,10 @@
   color: rgb(var(--text-muted));
 }
 
+.contactItem a {
+  color: rgb(25, 119, 234);
+}
+
 .contactForm {
   display: flex;
   flex-direction: column;
@@ -92,4 +96,12 @@
 .sendButton:hover {
   background-color: rgb(var(--blue-600));
   color: white;
+}
+
+.sendButton:disabled {
+  background-color: rgba(var(--cta-btn-bg), 0.5); /* dimmed background */
+  color: rgba(var(--cta-btn-text), 0.5); /* dimmed text */
+  cursor: not-allowed;
+  opacity: 0.7;
+  pointer-events: none;
 }

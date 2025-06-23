@@ -1,30 +1,66 @@
 "use client";
 import styles from "./page.module.css";
 import { Mail, Phone, MapPin, Github, Linkedin } from "lucide-react";
+import { ButtonLoader } from "@/components/Loading/Loading";
+import Swal from "sweetalert2";
+import { useState, useEffect } from "react";
 
 export default function Contact() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [formValues, setFormValues] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [isValid, setIsValid] = useState(false);
+
+  useEffect(() => {
+    const { name, email, message } = formValues;
+    setIsValid(name.trim() && email.trim() && message.trim());
+  }, [formValues]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues((prev) => ({ ...prev, [name]: value }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const form = new FormData(e.target);
+    try {
+      setIsLoading(true);
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formValues),
+      });
 
-    const payload = {
-      name: form.get("name"),
-      email: form.get("email"),
-      message: form.get("message"),
-    };
-
-    const res = await fetch("/api/contact", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
-    const data = await res.json();
-    if (res.ok) {
-      alert("Message sent successfully!");
-      e.target.reset();
-    } else {
-      alert(data.error || "Something went wrong.");
+      const data = await res.json();
+      if (res.ok) {
+        Swal.fire({
+          icon: "success",
+          title: "Message Sent",
+          text: "Thank you! Your message has been successfully delivered.",
+          confirmButtonColor: "#2563eb",
+        });
+        setFormValues({ name: "", email: "", message: "" });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: data.error || "Something went wrong. Please try again.",
+          confirmButtonColor: "#ef4444",
+        });
+      }
+    } catch (error) {
+      console.error("Error sending Email: ", error);
+      Swal.fire({
+        icon: "error",
+        title: "Network Error",
+        text: "Something went wrong while sending your message.",
+        confirmButtonColor: "#ef4444",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -79,6 +115,8 @@ export default function Contact() {
               placeholder="Your Name"
               required
               className={styles.inputField}
+              value={formValues.name}
+              onChange={handleChange}
             />
             <input
               name="email"
@@ -86,15 +124,23 @@ export default function Contact() {
               placeholder="Your Email"
               required
               className={styles.inputField}
+              value={formValues.email}
+              onChange={handleChange}
             />
             <textarea
               name="message"
               placeholder="Your Message"
               required
               className={styles.textareaField}
+              value={formValues.message}
+              onChange={handleChange}
             ></textarea>
-            <button type="submit" className={styles.sendButton}>
-              Send Message
+            <button
+              type="submit"
+              className={styles.sendButton}
+              disabled={!isValid || isLoading}
+            >
+              {isLoading ? <ButtonLoader /> : "Send Message"}
             </button>
           </form>
         </div>
