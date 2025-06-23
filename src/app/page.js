@@ -113,6 +113,16 @@ export default function Home() {
 
       {/* CTA Section */}
       <CTA cta={cta} />
+
+      <section className={styles.contactCTA}>
+        <h2>Need Help or Have Questions?</h2>
+        <p>
+          I am love to hear from you. Reach out and I’ll get back to you ASAP.
+        </p>
+        <a href="/contact-us" className={styles.primaryButton}>
+          Contact Me
+        </a>
+      </section>
     </div>
   );
 }

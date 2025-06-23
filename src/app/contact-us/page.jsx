@@ -4,6 +4,7 @@ import { Mail, Phone, MapPin, Github, Linkedin } from "lucide-react";
 import { ButtonLoader } from "@/components/Loading/Loading";
 import Swal from "sweetalert2";
 import { useState, useEffect } from "react";
+import Navbar from "@/components/Navbar/Navbar";
 
 export default function Contact() {
   const [isLoading, setIsLoading] = useState(false);
@@ -66,6 +67,11 @@ export default function Contact() {
 
   return (
     <section className={styles.contactSection}>
+      <Navbar
+        leftLink={{ href: "/", text: "Home" }}
+        midlink={{ href: "/share", text: "Share" }}
+        rightLink={{ href: "/receive", text: "Receive" }}
+      />
       <div className={styles.contactContainer}>
         <h1 className={styles.contactTitle}>Contact Us</h1>
         <p className={styles.contactSubtitle}>

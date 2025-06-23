@@ -139,3 +139,30 @@
   color: rgba(var(--cta-desc));
   line-height: 1.6;
 }
+
+.contactCTA {
+  margin: 4rem auto 0;
+  padding: 3rem 1.5rem;
+  background: rgba(var(--glass-bg));
+  border-radius: 1.5rem;
+  max-width: 700px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(var(--shadow-color));
+  color: rgb(var(--text-light));
+}
+
+.contactCTA h2 {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.contactCTA p {
+  font-size: 1rem;
+  color: rgb(var(--text-muted));
+  margin-bottom: 1.5rem;
+}
+
+.contactCTA .primaryButton {
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+}

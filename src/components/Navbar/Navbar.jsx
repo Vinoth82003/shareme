@@ -1,14 +1,19 @@
-import Link from 'next/link';
-import styles from './navbar.module.css';
+import Link from "next/link";
+import styles from "./navbar.module.css";
 
-export default function Navbar({ leftLink, rightLink }) {
+export default function Navbar({ leftLink, midlink, rightLink }) {
   return (
     <nav className={styles.navbar}>
       <Link href={leftLink.href} className={styles.navLink}>
-        <span className={styles.arrow}>←</span> {leftLink.text}
+        {leftLink.text}
       </Link>
+      {midlink && (
+        <Link href={midlink.href} className={styles.navLink}>
+          {midlink.text}
+        </Link>
+      )}
       <Link href={rightLink.href} className={styles.navLink}>
-        {rightLink.text} <span className={styles.arrow}>→</span>
+        {rightLink.text}
       </Link>
     </nav>
   );
