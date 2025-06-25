@@ -284,7 +284,7 @@ export default function ReceivePage() {
                   download={receivedItem.content}
                   className={styles.downloadLink}
                 >
-                  ⬇ Download {receivedItem.content}
+                  ⬇ Download 
                 </a>
               </div>
             )}
