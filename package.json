@@ -1,5 +1,6 @@
 {
   "name": "shareme",
+  "description": "A file and text sharing app built with Next.js and MongoDB, using Vercel Blob Storage. Share files or text via a simple 4-digit code, and allow users to download or view shared content easily.",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,6 +9,14 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "keywords": [
+    "nextjs",
+    "mongodb",
+    "vercel",
+    "file-sharing",
+    "text-sharing",
+    "web-app"
+  ],
   "dependencies": {
     "@vercel/blob": "^1.1.1",
     "framer-motion": "^12.16.0",
